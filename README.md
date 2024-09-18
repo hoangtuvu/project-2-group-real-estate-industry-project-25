@@ -4,9 +4,9 @@
 4. Get an API key from [OSM](https://openrouteservice.org/dev/#/login)
 5. Go to `notebooks`, then `Preliminary.ipynb`. Run all cells to scrape the data.
 6. Go to `notebooks`, then `DataCleaning.ipynb`.
-   - Insert API key from OSM to:
+   * Insert API key from OSM, then run all cells:
     <img width="1135" alt="image" src="https://github.com/user-attachments/assets/8e72d4b7-a425-4a18-8ca2-4c70cac67855">
-  - Run all cells.
+
 
 
 To dos:
