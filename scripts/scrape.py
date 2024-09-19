@@ -280,7 +280,15 @@ def scrape_property_details(url):
             lat_long_match = pattern2.findall(str(lat_long))
             if lat_long_match:
                 latitude, longitude = lat_long_match[0].split(',')
-
+        property_header = bsobj.find("h3", {"data-testid": "listing-details__description-headline"})
+        property_headline = property_header.get_text(strip=True) if property_header else "N/A"
+        
+        # Extract property description
+        property_description = ""
+        if property_header:
+            for p in property_header.find_next_siblings('p'):
+                property_description += p.get_text(strip=True) + " "
+        
         return {
             "URL": url,
             "Rent_Price": property_price,
@@ -290,7 +298,9 @@ def scrape_property_details(url):
             "Parking": property_features[2],
             "Property_Type": property_type,
             "Latitude": latitude,
-            "Longitude": longitude
+            "Longitude": longitude,
+            "Property_Headline": property_headline,
+            "Property_Description": property_description.strip()
         }
     except Exception as e:
         print(f"Error extracting details from {url}: {e}")
@@ -330,7 +340,7 @@ def main():
                 properties_details.append(property_details)
 
     csv_file = "../data/landing/alt_properties.csv"
-    csv_columns = ["URL", "Rent_Price", "Address", "Bedrooms", "Bathrooms", "Parking", "Property_Type", "Latitude", "Longitude"]
+    csv_columns = ["URL", "Rent_Price", "Address", "Bedrooms", "Bathrooms", "Parking", "Property_Type", "Latitude", "Longitude", "Property_Headline","Property_Description"]
     try:
         with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
             writer = csv.DictWriter(file, fieldnames=csv_columns)
